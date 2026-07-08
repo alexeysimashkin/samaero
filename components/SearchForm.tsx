@@ -1,35 +1,35 @@
 'use client'
 
-import { useState } from 'react';
-import { useRouter } from 'next/navigation';
+import { useState } from 'react'
+import { useRouter } from 'next/navigation'
 
 const cities = [
   'Москва', 'Санкт-Петербург', 'Сочи', 'Калининград',
   'Екатеринбург', 'Новосибирск', 'Казань', 'Владивосток',
   'Минск', 'Астана', 'Дубай', 'Стамбул'
-];
+]
 
 export default function SearchForm() {
-  const router = useRouter();
-  const [tripType, setTripType] = useState<'one-way' | 'round-trip'>('one-way');
-  const [origin, setOrigin] = useState('');
-  const [destination, setDestination] = useState('');
-  const [departureDate, setDepartureDate] = useState('');
-  const [returnDate, setReturnDate] = useState('');
-  const [showOrigin, setShowOrigin] = useState(false);
-  const [showDestination, setShowDestination] = useState(false);
+  const router = useRouter()
+  const [tripType, setTripType] = useState<'one-way' | 'round-trip'>('one-way')
+  const [origin, setOrigin] = useState('')
+  const [destination, setDestination] = useState('')
+  const [departureDate, setDepartureDate] = useState('')
+  const [returnDate, setReturnDate] = useState('')
+  const [showOrigin, setShowOrigin] = useState(false)
+  const [showDestination, setShowDestination] = useState(false)
 
   const handleSubmit = (e: React.FormEvent) => {
-    e.preventDefault();
+    e.preventDefault()
     const params = new URLSearchParams({
       origin,
       destination,
       departureDate,
       tripType,
       ...(returnDate && { returnDate }),
-    });
-    router.push(`/search?${params.toString()}`);
-  };
+    })
+    router.push(`/search?${params.toString()}`)
+  }
 
   return (
     <form onSubmit={handleSubmit} className="bg-white rounded-2xl shadow-2xl p-6 max-w-4xl mx-auto">
@@ -38,9 +38,7 @@ export default function SearchForm() {
           type="button"
           onClick={() => setTripType('one-way')}
           className={`px-6 py-2 rounded-lg font-medium transition ${
-            tripType === 'one-way' 
-              ? 'bg-lime-500 text-white' 
-              : 'bg-gray-100 text-gray-600'
+            tripType === 'one-way' ? 'bg-lime-500 text-white' : 'bg-gray-100 text-gray-600'
           }`}
         >
           В одну сторону
@@ -49,9 +47,7 @@ export default function SearchForm() {
           type="button"
           onClick={() => setTripType('round-trip')}
           className={`px-6 py-2 rounded-lg font-medium transition ${
-            tripType === 'round-trip' 
-              ? 'bg-lime-500 text-white' 
-              : 'bg-gray-100 text-gray-600'
+            tripType === 'round-trip' ? 'bg-lime-500 text-white' : 'bg-gray-100 text-gray-600'
           }`}
         >
           Туда-обратно
@@ -66,6 +62,7 @@ export default function SearchForm() {
             value={origin}
             onChange={(e) => setOrigin(e.target.value)}
             onFocus={() => setShowOrigin(true)}
+            onBlur={() => setTimeout(() => setShowOrigin(false), 200)}
             className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-lime-500 focus:border-transparent"
             placeholder="Город отправления"
           />
@@ -77,10 +74,7 @@ export default function SearchForm() {
                   <div
                     key={city}
                     className="px-4 py-2 hover:bg-lime-50 cursor-pointer"
-                    onClick={() => {
-                      setOrigin(city);
-                      setShowOrigin(false);
-                    }}
+                    onClick={() => { setOrigin(city); setShowOrigin(false) }}
                   >
                     {city}
                   </div>
@@ -96,6 +90,7 @@ export default function SearchForm() {
             value={destination}
             onChange={(e) => setDestination(e.target.value)}
             onFocus={() => setShowDestination(true)}
+            onBlur={() => setTimeout(() => setShowDestination(false), 200)}
             className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-lime-500 focus:border-transparent"
             placeholder="Город назначения"
           />
@@ -107,10 +102,7 @@ export default function SearchForm() {
                   <div
                     key={city}
                     className="px-4 py-2 hover:bg-lime-50 cursor-pointer"
-                    onClick={() => {
-                      setDestination(city);
-                      setShowDestination(false);
-                    }}
+                    onClick={() => { setDestination(city); setShowDestination(false) }}
                   >
                     {city}
                   </div>
@@ -149,5 +141,5 @@ export default function SearchForm() {
         Найти рейсы
       </button>
     </form>
-  );
+  )
 }
